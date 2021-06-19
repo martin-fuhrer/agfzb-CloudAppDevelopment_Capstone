@@ -33,6 +33,9 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'djangoapp:add_review' dealer_id %}">Add Review</a>
+                </li>
                 <li>
                     <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
                     <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
@@ -57,15 +60,29 @@
 
     {% if reviews %}
         <div class="container">
-            <ul class="list-group">
+            <h2>Reviews for {{dealer.full_name}}</h2>
+            <div class="card-columns">
                 {% for review in reviews %}
-                    <li class="list-group-item">{{ review.review }} ({{ review.sentiment }})</li>
+                    <div class="card">
+                        {% if review.sentiment == 'positive' %}
+                            <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png">
+                        {% else %}
+                            {% if review.sentiment == 'negative' %}
+                                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png">
+                            {% else %}
+                                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/neutral.png">
+                            {% endif %}
+                        {% endif %}
+                        <div class="card-body">
+                            <h3 class="card-title">{{review.car_make}} {{review.car_model}}</h3>
+                            <h3 class="card-title">{{review.purchase_year}}</h3>
+                            <p class="card-text">{{review.review}}</p>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
     {% endif %}
-
-    <a class="btn btn-primary" href="{% url 'djangoapp:add_review' dealer_id %}">Add Review</a>
 
     </body>
 

@@ -57,34 +57,27 @@
 
     {% if user.is_authenticated %}
 
-    <form action="{% url 'djangoapp:store_review' dealer_id %}" method="post">
+    <h2>Add a review about {{ dealer.full_name }}</h2>
+
+    <form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
         <div class="container">
             {% csrf_token %}
-            <h1>Add Review</h1>
-            <hr>
-            <div class="form-group">
-                <input type="hidden" name="dealership" value="{{ dealer_id }}">
-                <label for="name"><b>Name</b></label>
-                <input type="text" class="form-control" placeholder="Enter Your Name: " name="name" required>
-                <label for="review"><b>Review</b></label>
-                <textarea rows="4" name="review" required>
-                </textarea>
+                <input type="hidden" name="username" value="{{ user.first_name }}({{ user.username }})">
+                <label for="review"><b>Enter the review content:</b></label>
+                <textarea class="form-control" id="review" name="review" rows="2" required></textarea>
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="checkbox" name="purchase"
-                               class="form-check-input" id="purchase"
-                               value="true"> Purchase
+                        <input class="form-check-input" type="checkbox" name="purchase" id="purchase">
+                        Has purchased the car from {{dealer.full_name}}?
                     </label>
                 </div>
-                <label for="purchase_date"><b>Purchase Date</b></label>
-                <input type="date" class="form-control" placeholder="Enter Purchase Date: " name="purchase_date" required>
-                <label for="car_make"><b>Car Make</b></label>
-                <input type="text" class="form-control" placeholder="Enter Car Make: " name="car_make">
-                <label for="car_model"><b>Car Model</b></label>
-                <input type="text" class="form-control" placeholder="Enter Car Model: " name="car_model">
-                <label for="car_year"><b>Car Year</b></label>
-                <input type="date" class="form-control" placeholder="Enter Car Year: " name="car_year">
-            </div>
+                <select name="car" id="car" class="form-select" required>
+                    {% for car in cars %}
+                        <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                    {% endfor %}
+                </select>
+                <label for="review"><b>Select Your Purchase Date:</b></label>
+                <input class="date-own form-control" type="date" name="purchase_date" id="purchase_date">
             {% if message %}
             <div class="alert alert-warning">
                 {{ message }}
@@ -97,4 +90,9 @@
     {% endif %}
 
     </body>
+  <script type="text/javascript">
+      $('.date-own').datepicker({
+         format: 'mm/dd/yyyy'
+       });
+ </script>
 </html>
