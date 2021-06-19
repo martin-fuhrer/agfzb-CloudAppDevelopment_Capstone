@@ -59,6 +59,19 @@
     </nav>
 
     <!--Add a dealer table here -->
+    {% if dealerships %}
+        <div class="container">
+            <ul class="list-group">
+                {% for dealer in dealerships %}
+                    <li class="list-group-item">
+                        <a href="{% url 'djangoapp:dealer_details' dealer.id %}">
+                            {{ dealer.short_name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
     </body>
 
