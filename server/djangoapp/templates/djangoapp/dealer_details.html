@@ -46,7 +46,7 @@
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Username" name="username" >
-                            <input type="password" class="form-control" placeholder="Username" name="psw" >
+                            <input type="password" class="form-control" placeholder="Password" name="psw" >
                             <button class="btn btn-primary" type="submit">Login</button>
                             <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
                         </div>
@@ -65,12 +65,12 @@
                 {% for review in reviews %}
                     <div class="card">
                         {% if review.sentiment == 'positive' %}
-                            <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png">
+                            <img width="50" height="50" class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png">
                         {% else %}
                             {% if review.sentiment == 'negative' %}
-                                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png">
+                                <img width="50" height="50" class="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png">
                             {% else %}
-                                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/neutral.png">
+                                <img width="50" height="50" class="card-img-left" src="{{MEDIA_URL}}/emoji/neutral.png">
                             {% endif %}
                         {% endif %}
                         <div class="card-body">
